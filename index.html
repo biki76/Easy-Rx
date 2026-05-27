@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <title>Easy Rx – Complete Clinical Solution | চেম্বার ও ওয়ার্ড সলিউশন</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', 'Inter', sans-serif;
+      background: #ffffff;
+      color: #1e293b;
+      line-height: 1.5;
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    /* Language Toggle */
+    .lang-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #f1f5f9;
+      border-radius: 40px;
+      padding: 4px;
+      margin-left: 15px;
+      transition: background 0.3s;
+    }
+    .lang-btn {
+      background: transparent;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      color: #475569;
+      transition: all 0.2s ease;
+    }
+    .lang-btn.active {
+      background: white;
+      color: #0f4c81;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .lang-btn:hover:not(.active) {
+      color: #0d6efd;
+      background: rgba(255,255,255,0.6);
+    }
+    /* Hide language spans based on body class */
+    body .lang-bn { display: none; }
+    body .lang-en { display: inline; }
+    body.lang-bn .lang-en { display: none; }
+    body.lang-bn .lang-bn { display: inline; }
+    .lang-block-en, .lang-block-bn { display: block; }
+    body.lang-bn .lang-block-en { display: none; }
+    body.lang-bn .lang-block-bn { display: block; }
+    body .lang-block-bn { display: none; }
+
+    /* Sticky header with transition */
+    .sticky-header {
+      position: sticky;
+      top: 0;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 2px 15px rgba(0,0,0,0.04);
+      z-index: 100;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      transition: all 0.3s ease;
+    }
+    .sticky-header.scrolled {
+      background: rgba(255,255,255,0.98);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      padding: 8px 20px;
+    }
+    .logo {
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: #0f4c81;
+      letter-spacing: -0.5px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: transform 0.2s;
+    }
+    .logo:hover {
+      transform: scale(1.02);
+    }
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .header-cta {
+      background: #25D366;
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.3s ease;
+      white-space: nowrap;
+      box-shadow: 0 4px 10px rgba(37,211,102,0.25);
+    }
+    .header-cta i { font-size: 1.1rem; }
+    .header-cta:hover {
+      background: #1da851;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 18px rgba(37,211,102,0.4);
+    }
+
+    /* Scroll animations */
+    .reveal {
+      opacity: 0;
+      transform: translateY(25px);
+      transition: opacity 0.8s cubic-bezier(0.15, 0.85, 0.35, 1), transform 0.8s cubic-bezier(0.15, 0.85, 0.35, 1);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-left {
+      opacity: 0;
+      transform: translateX(-30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .reveal-left.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .reveal-right {
+      opacity: 0;
+      transform: translateX(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .reveal-right.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .reveal-scale {
+      opacity: 0;
+      transform: scale(0.92);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal-scale.visible {
+      opacity: 1;
+      transform: scale(1);
+    }
+    .delay-100 { transition-delay: 0.1s; }
+    .delay-200 { transition-delay: 0.2s; }
+    .delay-300 { transition-delay: 0.3s; }
+    .delay-400 { transition-delay: 0.4s; }
+
+    /* Hero */
+    .hero {
+      padding: 40px 0 50px;
+      background: linear-gradient(135deg, #f0f7ff 0%, #ffffff 100%);
+    }
+    .hero-grid {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 35px;
+    }
+    .hero-left { text-align: center; max-width: 600px; }
+    .badge {
+      display: inline-block;
+      background: #e8f0fe;
+      color: #0d6efd;
+      font-weight: 600;
+      font-size: 0.85rem;
+      padding: 6px 16px;
+      border-radius: 30px;
+      margin-bottom: 18px;
+      transition: transform 0.2s;
+    }
+    .badge:hover { transform: translateY(-2px); }
+    .hero-left h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      line-height: 1.2;
+      color: #0b2b44;
+      margin-bottom: 16px;
+    }
+    .hero-left .subhead {
+      font-size: 1.05rem;
+      color: #334155;
+      margin-bottom: 12px;
+      line-height: 1.5;
+    }
+    .exclusive-note {
+      font-weight: 600;
+      color: #b91c1c;
+      background: #fee2e2;
+      display: inline-block;
+      padding: 5px 16px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      margin: 10px 0 20px;
+    }
+    .hero-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
+      margin-top: 10px;
+    }
+    .btn-primary {
+      background: #0d6efd;
+      color: white;
+      padding: 14px 28px;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 1rem;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 8px 18px rgba(13,110,253,0.3);
+      transition: all 0.3s ease;
+      border: none;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+    .btn-primary::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s;
+      z-index: -1;
+    }
+    .btn-primary:hover::after {
+      left: 100%;
+    }
+    .btn-primary:hover {
+      background: #0b5ed7;
+      transform: translateY(-3px);
+      box-shadow: 0 14px 25px rgba(13,110,253,0.45);
+    }
+    .btn-whatsapp {
+      background: #25D366;
+      color: white;
+      padding: 14px 28px;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 1rem;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 8px 18px rgba(37,211,102,0.3);
+      transition: all 0.3s ease;
+    }
+    .btn-whatsapp:hover {
+      background: #1da851;
+      transform: translateY(-3px);
+      box-shadow: 0 14px 25px rgba(37,211,102,0.45);
+    }
+    .hero-right { max-width: 320px; width: 100%; }
+    .mockup-frame {
+      background: #fff;
+      border-radius: 36px;
+      padding: 14px;
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.15);
+      border: 1px solid #e9eef2;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .mockup-frame:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 35px 60px -12px rgba(0,0,0,0.2);
+    }
+    .mockup-frame img {
+      width: 100%;
+      height: auto;
+      border-radius: 24px;
+      background: #f1f5f9;
+      min-height: 250px;
+    }
+    section { padding: 60px 0; }
+    .section-title {
+      font-size: 2rem;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 20px;
+      color: #0b2b44;
+      transition: color 0.3s;
+    }
+    .section-subtitle {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto 40px;
+      color: #475569;
+      font-size: 1.1rem;
+    }
+    .challenge-list {
+      max-width: 700px;
+      margin: 0 auto;
+      background: #f8fafc;
+      border-radius: 24px;
+      padding: 30px 25px;
+      list-style: none;
+      transition: box-shadow 0.3s;
+    }
+    .challenge-list:hover {
+      box-shadow: 0 15px 30px rgba(0,0,0,0.06);
+    }
+    .challenge-list li {
+      padding: 12px 0;
+      border-bottom: 1px solid #e2e8f0;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 1.05rem;
+      transition: background 0.2s;
+      cursor: default;
+    }
+    .challenge-list li:hover {
+      background: #f1f5f9;
+      margin: 0 -10px;
+      padding-left: 10px;
+      padding-right: 10px;
+      border-radius: 8px;
+    }
+    .challenge-list li:last-child { border-bottom: none; }
+    .challenge-list i { color: #dc2626; font-size: 1.2rem; margin-top: 3px; }
+    .solution-text {
+      text-align: center;
+      font-weight: 700;
+      font-size: 1.25rem;
+      margin-top: 25px;
+      color: #0f4c81;
+      background: #e6f0ff;
+      padding: 15px 20px;
+      border-radius: 30px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+      transition: transform 0.3s;
+    }
+    .solution-text:hover {
+      transform: scale(1.02);
+    }
+    .why-box {
+      background: #fff;
+      border: 1px solid #dce5ec;
+      border-radius: 20px;
+      padding: 30px;
+      text-align: center;
+      max-width: 750px;
+      margin: 0 auto;
+      font-size: 1.1rem;
+      color: #334155;
+      transition: all 0.3s;
+    }
+    .why-box:hover {
+      border-color: #0d6efd;
+      box-shadow: 0 12px 25px rgba(13,110,253,0.1);
+      transform: translateY(-4px);
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 25px;
+      margin-top: 30px;
+    }
+    .feature-card {
+      background: #fff;
+      border: 1px solid #e9eef2;
+      border-radius: 20px;
+      padding: 25px 20px;
+      text-align: center;
+      transition: all 0.3s ease;
+      cursor: default;
+    }
+    .feature-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 35px rgba(0,0,0,0.08);
+      border-color: #0d6efd;
+    }
+    .feature-card i { font-size: 2.3rem; color: #0d6efd; margin-bottom: 15px; transition: transform 0.3s; }
+    .feature-card:hover i { transform: scale(1.15) rotate(2deg); }
+    .specialty-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px 20px;
+      margin-top: 25px;
+    }
+    .specialty-item {
+      background: #f1f5f9;
+      padding: 12px 20px;
+      border-radius: 40px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s;
+      cursor: default;
+    }
+    .specialty-item:hover {
+      background: #0d6efd;
+      color: white;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 18px rgba(13,110,253,0.3);
+    }
+    .specialty-item span {
+      background: #0d6efd;
+      color: white;
+      border-radius: 20px;
+      padding: 2px 12px;
+      font-size: 0.8rem;
+      margin-left: 4px;
+      transition: background 0.3s;
+    }
+    .specialty-item:hover span {
+      background: white;
+      color: #0d6efd;
+    }
+    .derm-highlight, .calc-demo, .prescription-demo {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      align-items: center;
+      background: #f9fcff;
+      border-radius: 28px;
+      padding: 30px;
+      transition: box-shadow 0.3s, transform 0.3s;
+    }
+    .derm-highlight:hover, .calc-demo:hover, .prescription-demo:hover {
+      box-shadow: 0 20px 40px rgba(0,0,0,0.06);
+      transform: translateY(-4px);
+    }
+    .derm-image img, .calc-mockup img, .prescription-mockup img {
+      border-radius: 20px;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+      transition: transform 0.4s;
+    }
+    .derm-image img:hover, .calc-mockup img:hover, .prescription-mockup img:hover {
+      transform: scale(1.03);
+    }
+    .derm-details ul, .prescription-text ul { list-style: none; margin-top: 15px; }
+    .derm-details li, .prescription-text li { padding: 8px 0; display: flex; align-items: center; gap: 10px; }
+    .reference { font-size: 0.8rem; color: #64748b; margin-top: 15px; font-style: italic; }
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 25px;
+      margin-top: 30px;
+    }
+    .testimonial-card {
+      background: white;
+      border-radius: 20px;
+      padding: 25px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.02);
+      border: 1px solid #edf2f7;
+      transition: all 0.3s;
+    }
+    .testimonial-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 18px 30px rgba(0,0,0,0.08);
+      border-color: #0d6efd;
+    }
+    .stars { color: #fbbf24; }
+    .doctor-info { display: flex; align-items: center; gap: 12px; margin-top: 12px; }
+    .avatar { width: 44px; height: 44px; border-radius: 50%; background: #cbd5e1; object-fit: cover; transition: transform 0.3s; }
+    .avatar:hover { transform: scale(1.1); }
+    .faq-item {
+      border-bottom: 1px solid #e2e8f0;
+      padding: 20px 0;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .faq-item:hover {
+      background: #f8fafc;
+    }
+    .faq-question {
+      font-weight: 700;
+      font-size: 1.1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: color 0.2s;
+    }
+    .faq-item:hover .faq-question {
+      color: #0d6efd;
+    }
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease, opacity 0.3s;
+      color: #475569;
+      margin-top: 8px;
+      opacity: 0;
+    }
+    .faq-item.active .faq-answer {
+      max-height: 300px;
+      opacity: 1;
+    }
+    .faq-item.active .faq-question i {
+      transform: rotate(180deg);
+    }
+    .faq-question i {
+      transition: transform 0.3s;
+    }
+    .final-cta {
+      background: #0f4c81;
+      color: white;
+      text-align: center;
+      padding: 50px 20px;
+      border-radius: 40px;
+      margin: 40px 0;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .final-cta:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 25px 50px rgba(15,76,129,0.3);
+    }
+    .final-cta h2 { font-size: 2rem; margin-bottom: 20px; }
+    .whatsapp-number {
+      font-size: 1.5rem;
+      font-weight: 700;
+      background: #25D366;
+      display: inline-block;
+      padding: 12px 30px;
+      border-radius: 50px;
+      margin: 15px 0;
+      transition: transform 0.3s;
+    }
+    .whatsapp-number:hover {
+      transform: scale(1.05);
+    }
+    footer { text-align: center; padding: 30px; color: #64748b; font-size: 0.9rem; }
+
+    @media (min-width: 768px) {
+      .hero-grid { flex-direction: row; justify-content: space-between; text-align: left; }
+      .hero-left { text-align: left; }
+      .hero-buttons { justify-content: flex-start; }
+    }
+  </style>
+</head>
+<body class="lang-en">
+  <header class="sticky-header" id="stickyHeader">
+    <div class="logo">
+      <i class="fas fa-stethoscope"></i> Easy Rx
+    </div>
+    <div class="header-right">
+      <div class="lang-toggle" id="langToggle">
+        <button class="lang-btn active" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="bn">বাংলা</button>
+      </div>
+      <a href="https://wa.me/8801571760136?text=I%20want%201%20day%20free%20full%20access%20to%20Easy%20Rx" target="_blank" class="header-cta">
+        <i class="fab fa-whatsapp"></i> <span class="lang-en">Free Access</span><span class="lang-bn">ফ্রি অ্যাক্সেস</span>
+      </a>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-left reveal-left">
+        <div class="badge"><span class="lang-en">Trusted by BMDC doctors</span><span class="lang-bn">BMDC ডাক্তারদের বিশ্বস্ত</span></div>
+        <h1>
+          <span class="lang-en">Complete Clinical Solution for Chamber & Ward Management</span>
+          <span class="lang-bn">চেম্বার ও Ward Management-এর জন্য Complete Clinical Solution</span>
+        </h1>
+        <p class="subhead">
+          <span class="lang-en">Updated Treatment Guidelines, Weight-Based Pediatric Dose Calculator, Dermatology Support, Digital Prescription, Disease Approach – everything needed for daily clinical practice, now in one app.</span>
+          <span class="lang-bn">Updated Treatment Guideline, Weight-Based Pediatric Dose Calculator, Dermatology Support, Digital Prescription, Disease Approach সহ দৈনন্দিন clinical practice-এর প্রয়োজনীয় সবকিছু এখন এক App এ।</span>
+        </p>
+        <div class="exclusive-note">
+          <span class="lang-en">Only for BMDC Registered Medical Practitioners</span>
+          <span class="lang-bn">✅ Only for BMDC Registered Medical Practitioners</span>
+        </div>
+        <div class="hero-buttons">
+          <a href="https://wa.me/8801571760136?text=I%20want%201%20day%20free%20full%20access" target="_blank" class="btn-primary">
+            <span class="lang-en">🟢 Get 1 Day Free Full Access</span>
+            <span class="lang-bn">🟢 Get 1 Day Free Full Access</span>
+          </a>
+          <a href="https://wa.me/8801571760136?text=Hi%20Easy%20Rx" target="_blank" class="btn-whatsapp">
+            <i class="fab fa-whatsapp"></i> <span class="lang-en">Message on WhatsApp</span><span class="lang-bn">Message on WhatsApp</span>
+          </a>
+        </div>
+      </div>
+      <div class="hero-right reveal-right">
+        <div class="mockup-frame">
+          <img src="src/easy-rx-mockup.png" alt="Easy Rx app mockup">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <h2 class="section-title reveal"><span class="lang-en">Facing These Problems in Daily Practice?</span><span class="lang-bn">দৈনন্দিন Practice এ এই সমস্যাগুলো হচ্ছে?</span></h2>
+      <ul class="challenge-list reveal">
+        <li><i class="fas fa-times-circle"></i> <span class="lang-en">Trouble keeping up with updated treatments?</span><span class="lang-bn">Updated treatment মনে রাখতে সমস্যা হচ্ছে?</span></li>
+        <li><i class="fas fa-times-circle"></i> <span class="lang-en">Still manually calculating mg/kg doses?</span><span class="lang-bn">এখনো manually mg/kg dose calculate করছেন?</span></li>
+        <li><i class="fas fa-times-circle"></i> <span class="lang-en">Confusing dermatology cases taking too long?</span><span class="lang-bn">Confusing dermatology case বুঝতে সময় লাগছে?</span></li>
+        <li><i class="fas fa-times-circle"></i> <span class="lang-en">Wasting time searching PDFs, books, notes?</span><span class="lang-bn">PDF, বই, notes খুঁজতে সময় নষ্ট হচ্ছে?</span></li>
+        <li><i class="fas fa-times-circle"></i> <span class="lang-en">Difficulty managing busy chamber and ward?</span><span class="lang-bn">Busy chamber ও ward duty manage করতে কষ্ট হচ্ছে?</span></li>
+      </ul>
+      <div class="solution-text reveal"><span class="lang-en">Easy Rx brings the complete solution for everything.</span><span class="lang-bn">Easy Rx এনেছে সবকিছুর Complete Solution</span></div>
+    </div>
+  </section>
+
+  <section style="background:#f9fcff;">
+    <div class="container">
+      <h2 class="section-title reveal"><span class="lang-en">Made for Daily Clinical Practice</span><span class="lang-bn">দৈনন্দিন Clinical Practice-এর জন্য তৈরি</span></h2>
+      <div class="why-box reveal">
+        <span class="lang-en">Whether in chamber, ward, OPD, emergency duty, or internship – Easy Rx gives you fast access to practical clinical support.</span>
+        <span class="lang-bn">চেম্বার, Ward, OPD, Emergency Duty, Internship — যেখানেই থাকুন, Easy Rx আপনাকে দ্রুত access দিচ্ছে practical clinical support।</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <h2 class="section-title reveal"><span class="lang-en">Everything You Need for Daily Practice</span><span class="lang-bn">দৈনন্দিন Practice-এর প্রয়োজনীয় সবকিছু</span></h2>
+      <div class="features-grid">
+        <div class="feature-card reveal delay-100"><i class="fas fa-book-medical"></i><h3><span class="lang-en">Updated Treatment Guidelines</span><span class="lang-bn">Updated Treatment Guidelines</span></h3></div>
+        <div class="feature-card reveal delay-200"><i class="fas fa-weight-scale"></i><h3><span class="lang-en">Weight-Based Pediatric Dose Calculator</span><span class="lang-bn">Weight-Based Pediatric Dose Calculator</span></h3></div>
+        <div class="feature-card reveal delay-300"><i class="fas fa-file-prescription"></i><h3><span class="lang-en">Digital Prescription System</span><span class="lang-bn">Digital Prescription System</span></h3></div>
+        <div class="feature-card reveal delay-400"><i class="fas fa-baby"></i><h3><span class="lang-en">Pregnancy & Lactation Safe Drugs</span><span class="lang-bn">Pregnancy & Lactation Safe Drugs</span></h3></div>
+        <div class="feature-card reveal delay-100"><i class="fas fa-stethoscope"></i><h3><span class="lang-en">Disease Approach & Case Study</span><span class="lang-bn">Disease Approach & Case Study</span></h3></div>
+        <div class="feature-card reveal delay-200"><i class="fas fa-flask"></i><h3><span class="lang-en">Investigation Interpretation</span><span class="lang-bn">Investigation Interpretation</span></h3></div>
+        <div class="feature-card reveal delay-300"><i class="fas fa-calculator"></i><h3><span class="lang-en">Clinical Calculators</span><span class="lang-bn">Clinical Calculators</span></h3></div>
+        <div class="feature-card reveal delay-400"><i class="fas fa-clinic-medical"></i><h3><span class="lang-en">Complete Chamber & Ward Support</span><span class="lang-bn">Complete Chamber & Ward Support</span></h3></div>
+      </div>
+    </div>
+  </section>
+
+  <section style="background:#f8fafc;">
+    <div class="container">
+      <h2 class="section-title reveal"><span class="lang-en">What’s Inside Easy Rx</span><span class="lang-bn">Easy Rx-এ যা যা থাকছে</span></h2>
+      <div class="specialty-grid reveal">
+        <div class="specialty-item"><i class="fas fa-heartbeat"></i> Medicine <span>160+</span></div>
+        <div class="specialty-item"><i class="fas fa-notes-medical"></i> Clinical Medicine Posts <span>80+</span></div>
+        <div class="specialty-item"><i class="fas fa-child"></i> Pediatrics <span>80+</span></div>
+        <div class="specialty-item"><i class="fas fa-baby-carriage"></i> Pediatrics Posts <span>50+</span></div>
+        <div class="specialty-item"><i class="fas fa-female"></i> Gyne & Obs <span>130+</span></div>
+        <div class="specialty-item"><i class="fas fa-syringe"></i> Surgery <span>80+</span></div>
+        <div class="specialty-item"><i class="fas fa-bone"></i> Orthopedics <span>40+</span></div>
+        <div class="specialty-item"><i class="fas fa-allergies"></i> Dermatology <span>150+</span></div>
+        <div class="specialty-item"><i class="fas fa-baby"></i> Pediatric Dermatology <span>22+</span></div>
+        <div class="specialty-item"><i class="fas fa-microscope"></i> Investigation Study <span>40+</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container" style="text-align:center;">
+      <h2 class="section-title reveal"><span class="lang-en">See Easy Rx in Action</span><span class="lang-bn">Easy Rx অ্যাপ স্ক্রিনশট</span></h2>
+      <div style="display:flex; flex-wrap:wrap; gap:20px; justify-content:center; margin-top:30px;" class="reveal">
+        <img src="src/screenshot-1.png" style="width:200px; border-radius:24px; background:#e2e8f0; transition: transform 0.3s;" class="hover-grow">
+        <img src="src/screenshot-2.png" style="width:200px; border-radius:24px; background:#e2e8f0; transition: transform 0.3s;" class="hover-grow">
+        <img src="src/screenshot-3.png" style="width:200px; border-radius:24px; background:#e2e8f0; transition: transform 0.3s;" class="hover-grow">
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <h2 class="section-title reveal"><span class="lang-en">Smarter Dermatology Practice</span><span class="lang-bn">Smarter Dermatology Practice</span></h2>
+      <div class="derm-highlight reveal">
+        <div class="derm-image"><img src="src/dermatology-sample.jpg" alt="Dermatology" style="min-height:220px; background:#e9f0f5;"></div>
+        <div class="derm-details">
+          <p><span class="lang-en">Along with 150+ Dermatology Topics, you get:</span><span class="lang-bn">150+ Dermatology Topics-এর সাথে থাকছে—</span></p>
+          <ul>
+            <li><i class="fas fa-check-circle"></i> <span class="lang-en">Color Clinical Images</span><span class="lang-bn">Color Clinical Images</span></li>
+            <li><i class="fas fa-check-circle"></i> <span class="lang-en">Definition</span><span class="lang-bn">Definition</span></li>
+            <li><i class="fas fa-check-circle"></i> <span class="lang-en">Causes & Risk Factors</span><span class="lang-bn">Causes & Risk Factors</span></li>
+            <li><i class="fas fa-check-circle"></i> <span class="lang-en">Clinical Features</span><span class="lang-bn">Clinical Features</span></li>
+            <li><i class="fas fa-check-circle"></i> <span class="lang-en">Differential Diagnosis</span><span class="lang-bn">Differential Diagnosis</span></li>
+            <li><i class="fas fa-check-circle"></i> <span class="lang-en">Investigation</span><span class="lang-bn">Investigation</span></li>
+            <li><i class="fas fa-check-circle"></i> <span class="lang-en">Treatment & Advice</span><span class="lang-bn">Treatment & Advice</span></li>
+            <li><i class="fas fa-check-circle"></i> <span class="lang-en">Chamber Practice Tips</span><span class="lang-bn">Chamber Practice Tips</span></li>
+          </ul>
+          <p class="reference">DermNet • Medscape • Cleveland Clinic • NCBI</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <h2 class="section-title reveal"><span class="lang-en">No More Manual mg/kg Calculation</span><span class="lang-bn">এখন আর Manual mg/kg Calculation নয়</span></h2>
+      <div class="calc-demo reveal">
+        <div class="calc-text">
+          <p><span class="lang-en">Simply enter the patient’s weight and get the accurate pediatric dose instantly.</span><span class="lang-bn">শুধু Patient-এর weight দিন আর সাথে সাথে পেয়ে যান accurate Pediatric Dose</span></p>
+          <p style="font-weight:700;"><span class="lang-en">Fast • Simple • Practical</span><span class="lang-bn">Fast • Simple • Practical</span></p>
+        </div>
+        <div class="calc-mockup"><img src="src/pediatric-dose-mockup.png" alt="Pediatric dose"></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <h2 class="section-title reveal"><span class="lang-en">Create Professional Digital Prescriptions</span><span class="lang-bn">Professional Digital Prescription তৈরি করুন</span></h2>
+      <div class="prescription-demo reveal">
+        <div class="prescription-text">
+          <ul>
+            <li><i class="fas fa-check-circle"></i> <span class="lang-en">Save time</span><span class="lang-bn">সময় বাঁচান</span></li>
+            <li><i class="fas fa-check-circle"></i> <span class="lang-en">Clean layout</span><span class="lang-bn">Clean Layout</span></li>
+            <li><i class="fas fa-check-circle"></i> <span class="lang-en">Faster chamber workflow</span><span class="lang-bn">Faster Chamber Workflow</span></li>
+          </ul>
+        </div>
+        <div class="prescription-mockup"><img src="src/digital-prescription-mockup.png" alt="Prescription"></div>
+      </div>
+    </div>
+  </section>
+
+  <section style="background:#f9fcff;">
+    <div class="container">
+      <h2 class="section-title reveal"><span class="lang-en">Doctors Are Saying</span><span class="lang-bn">Doctors are saying</span></h2>
+      <div class="testimonials-grid">
+        <div class="testimonial-card reveal delay-100"><div class="stars">★★★★★</div><p><span class="lang-en">“During busy chamber hours, Easy Rx is very helpful.”</span><span class="lang-bn">“Busy chamber hour এ Easy Rx অনেক helpful”</span></p><div class="doctor-info"><img src="src/review-avatar-1.jpg" class="avatar"><div><strong>Dr. Rahman</strong><br><small>GP</small></div></div></div>
+        <div class="testimonial-card reveal delay-200"><div class="stars">★★★★★</div><p><span class="lang-en">“Best app for GP practice compared to others.”</span><span class="lang-bn">“GP Practice এর জন্য অন্য এপ থেকে সেরা।”</span></p><div class="doctor-info"><img src="src/review-avatar-2.jpg" class="avatar"><div><strong>Dr. Sultana</strong><br><small>Family Medicine</small></div></div></div>
+        <div class="testimonial-card reveal delay-300"><div class="stars">★★★★★</div><p><span class="lang-en">“A great app for intern doctors.”</span><span class="lang-bn">“ইন্টার্ন ডাক্তারদের জন্য বেস্ট একটা এপ।”</span></p><div class="doctor-info"><img src="src/review-avatar-3.jpg" class="avatar"><div><strong>Dr. Hasan</strong><br><small>Intern</small></div></div></div>
+        <div class="testimonial-card reveal delay-400"><div class="stars">★★★★★</div><p><span class="lang-en">“Gives quick support during ward duty.”</span><span class="lang-bn">“Ward duty তে quick support দেয়।”</span></p><div class="doctor-info"><img src="src/review-avatar-4.jpg" class="avatar"><div><strong>Dr. Karim</strong><br><small>Medical Officer</small></div></div></div>
+        <div class="testimonial-card reveal delay-100"><div class="stars">★★★★★</div><p><span class="lang-en">“Pediatric dose calculation has become so easy.”</span><span class="lang-bn">“Pediatric dose calculation অনেক সহজ হয়েছে”</span></p><div class="doctor-info"><img src="src/review-avatar-5.jpg" class="avatar"><div><strong>Dr. Chowdhury</strong><br><small>Pediatrics</small></div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container" style="max-width:800px;">
+      <h2 class="section-title reveal">FAQ</h2>
+      <div class="faq-item reveal"><div class="faq-question"><span class="lang-en">Is Easy Rx for everyone?</span><span class="lang-bn">Easy Rx কি সবার জন্য?</span><i class="fas fa-chevron-down"></i></div><div class="faq-answer"><span class="lang-en">No. Only for BMDC Registered Medical Practitioners.</span><span class="lang-bn">না। শুধুমাত্র BMDC Registered Medical Practitioners-এর জন্য।</span></div></div>
+      <div class="faq-item reveal"><div class="faq-question"><span class="lang-en">Is there a free trial?</span><span class="lang-bn">Free trial আছে?</span><i class="fas fa-chevron-down"></i></div><div class="faq-answer"><span class="lang-en">Yes. You can get 1 day of full access.</span><span class="lang-bn">হ্যাঁ। ১ দিনের জন্য Full Access পাওয়া যাবে।</span></div></div>
+      <div class="faq-item reveal"><div class="faq-question"><span class="lang-en">Is the content updated?</span><span class="lang-bn">Content কি updated?</span><i class="fas fa-chevron-down"></i></div><div class="faq-answer"><span class="lang-en">Yes. New topics are added regularly. Evidence-based, trusted medical references are used.</span><span class="lang-bn">হ্যাঁ। প্রতিনিয়তই নতুন নতুন টপিক যুক্ত হচ্ছে। Evidence-based trusted medical references ব্যবহার করা হয়েছে।</span></div></div>
+      <div class="faq-item reveal"><div class="faq-question"><span class="lang-en">Can it be used offline?</span><span class="lang-bn">অফলাইনে ব্যাবহার করা যাবে?</span><i class="fas fa-chevron-down"></i></div><div class="faq-answer"><span class="lang-en">Not fully. However, the calculator works offline – especially useful for pediatric dosing. You can also bookmark topics to read offline later.</span><span class="lang-bn">পুরোপুরি না। তবে ক্যালকুলেটর অফলাইনে ইউজ করা যাবে। বিশেষ করে পেডিয়াট্রিক্স ডোজের টা এইক্ষেত্রে খুবই কাজে লাগে। পাশাপাশি টপিক বুক মার্ক করে পরে অফলাইনে পড়তে পারবেন।</span></div></div>
+      <div class="faq-item reveal"><div class="faq-question"><span class="lang-en">Can I use it on iPhone?</span><span class="lang-bn">আইফোনে ব্যাবহার করা যাবে?</span><i class="fas fa-chevron-down"></i></div><div class="faq-answer"><span class="lang-en">Yes. Instructions for the iPhone version are provided below.</span><span class="lang-bn">জি যাবে। আইফোন ভার্সন টা কিভাবে ব্যাবহার করবেন তা নিচে দেওয়া আছে।</span></div></div>
+      <div class="faq-item reveal"><div class="faq-question"><span class="lang-en">Why does it show “Harmful” when installing?</span><span class="lang-bn">ইন্সটল করতে গেলে Harmful দেখাচ্ছে কেন?</span><i class="fas fa-chevron-down"></i></div><div class="faq-answer"><span class="lang-en">Because the app is not on the Play Store, it may display that warning. This is normal for apps outside the Play Store. There is no issue – you can install without concern.</span><span class="lang-bn">এই এপ প্লে স্টোরে না থাকার কারনে এমন দেখাচ্ছে। প্লে স্টোরে না থাকলেই এইটা দেখাবেই। তবে এতে কোন সমস্যা না। আপনারা নিশ্চিন্তে ইন্সটল দিন।</span></div></div>
+      <div class="faq-item reveal"><div class="faq-question"><span class="lang-en">Why won’t the app install?</span><span class="lang-bn">এপ ইন্সটল হচ্ছে না কেন?</span><i class="fas fa-chevron-down"></i></div><div class="faq-answer"><span class="lang-en">If installation fails, turn off mobile data and try again. If you see “Unsafe Blocked,” go to More Details and tap “Install Anyway.” (Keep data off.)</span><span class="lang-bn">ইন্সটল না হলে ডাটা অফ করে ইন্সটল দিন। অথবা যদি Unsafe Blocked আসে তাহলে More Details থেকে Install Anyway দিলেই হবে। (ডাটা অফ রাখবেন)</span></div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="final-cta reveal">
+        <h2><span class="lang-en">Make Your Clinical Practice Smarter</span><span class="lang-bn">আপনার Clinical Practice-কে করুন আরও Smart</span></h2>
+        <a href="https://wa.me/8801571760136?text=I%20want%201%20day%20free%20full%20access" target="_blank" class="btn-primary" style="background:#fff; color:#0f4c81; margin:15px;">
+          <span class="lang-en">🎁 Get 1 Day Free Full Access</span><span class="lang-bn">🎁 ১ দিনের জন্য Full Free Access নিন</span>
+        </a>
+        <div class="whatsapp-number"><i class="fab fa-whatsapp"></i> 01571-760136</div>
+        <a href="https://wa.me/8801571760136" target="_blank" class="btn-whatsapp"><span class="lang-en">Message Now</span><span class="lang-bn">Message Now</span></a>
+      </div>
+    </div>
+  </section>
+  <footer><span class="lang-en">© 2025 Easy Rx – Complete Clinical Solution. Only for registered medical professionals.</span><span class="lang-bn">© 2025 Easy Rx – শুধুমাত্র নিবন্ধিত ডাক্তারদের জন্য।</span></footer>
+
+  <script>
+    (function() {
+      // Language toggle (preserved)
+      const body = document.body;
+      const langBtns = document.querySelectorAll('.lang-btn');
+      function setLang(lang) {
+        body.classList.remove('lang-en', 'lang-bn');
+        body.classList.add('lang-' + lang);
+        localStorage.setItem('easyRxLang', lang);
+        langBtns.forEach(btn => btn.classList.toggle('active', btn.dataset.lang === lang));
+      }
+      langBtns.forEach(btn => btn.addEventListener('click', () => setLang(btn.dataset.lang)));
+      const savedLang = localStorage.getItem('easyRxLang') || 'en';
+      setLang(savedLang);
+
+      // FAQ accordion
+      document.querySelectorAll('.faq-item').forEach(item => {
+        item.querySelector('.faq-question').addEventListener('click', () => item.classList.toggle('active'));
+      });
+
+      // Sticky header shrink on scroll
+      const header = document.getElementById('stickyHeader');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 20) {
+          header.classList.add('scrolled');
+        } else {
+          header.classList.remove('scrolled');
+        }
+      });
+
+      // Scroll animations using Intersection Observer
+      const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            // Optional: unobserve after animation to save resources
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.15,
+        rootMargin: '0px 0px -30px 0px'
+      });
+
+      revealElements.forEach(el => observer.observe(el));
+
+      // Additional hover animations for screenshot images
+      document.querySelectorAll('.hover-grow').forEach(img => {
+        img.addEventListener('mouseenter', () => { img.style.transform = 'scale(1.05)'; });
+        img.addEventListener('mouseleave', () => { img.style.transform = 'scale(1)'; });
+      });
+    })();
+  </script>
+</body>
+</html>
