@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-  <script src="https://elementalconsessionconsession.com/36/e1/2c/36e12ce42fbb618859aa50ed7decef2e.js"></script>
   <title>Easy Rx – Complete Clinical Solution | চেম্বার ও ওয়ার্ড সলিউশন</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
@@ -299,6 +298,8 @@
       border-radius: 24px;
       background: #f1f5f9;
       min-height: 250px;
+      max-height: 500px;
+      object-fit: cover;
     }
     section { padding: 60px 0; }
     .section-title {
@@ -454,7 +455,15 @@
       box-shadow: 0 20px 40px rgba(0,0,0,0.06);
       transform: translateY(-4px);
     }
+    .derm-image, .calc-mockup, .prescription-mockup {
+      flex: 1;
+      min-width: 280px;
+      max-width: 400px;
+    }
     .derm-image img, .calc-mockup img, .prescription-mockup img {
+      width: 100%;
+      max-height: 450px;
+      object-fit: contain;
       border-radius: 20px;
       box-shadow: 0 15px 30px rgba(0,0,0,0.1);
       transition: transform 0.4s;
@@ -465,6 +474,30 @@
     .derm-details ul, .prescription-text ul { list-style: none; margin-top: 15px; }
     .derm-details li, .prescription-text li { padding: 8px 0; display: flex; align-items: center; gap: 10px; }
     .reference { font-size: 0.8rem; color: #64748b; margin-top: 15px; font-style: italic; }
+    
+    /* Screenshot gallery - FIXED */
+    .screenshot-gallery {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      margin-top: 30px;
+    }
+    .screenshot-gallery img {
+      width: 100%;
+      max-width: 280px;
+      height: auto;
+      max-height: 500px;
+      object-fit: cover;
+      border-radius: 24px;
+      background: #e2e8f0;
+      transition: transform 0.3s;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    }
+    .screenshot-gallery img:hover {
+      transform: scale(1.05);
+    }
+    
     .testimonials-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -559,6 +592,8 @@
       .hero-grid { flex-direction: row; justify-content: space-between; text-align: left; }
       .hero-left { text-align: left; }
       .hero-buttons { justify-content: flex-start; }
+      .derm-highlight, .calc-demo, .prescription-demo { flex-wrap: nowrap; }
+      .derm-image, .calc-mockup, .prescription-mockup { flex: 0 0 45%; }
     }
   </style>
 </head>
@@ -670,13 +705,14 @@
     </div>
   </section>
 
+  <!-- FIXED Screenshot Section -->
   <section>
     <div class="container" style="text-align:center;">
       <h2 class="section-title reveal"><span class="lang-en">See Easy Rx in Action</span><span class="lang-bn">Easy Rx অ্যাপ স্ক্রিনশট</span></h2>
-      <div style="display:flex; flex-wrap:wrap; gap:20px; justify-content:center; margin-top:30px;" class="reveal">
-        <img src="src/screenshot-1.png" border-radius:24px; background:#e2e8f0; transition: transform 0.3s;" class="hover-grow">
-        <img src="src/Screenshot-2.png" border-radius:24px; background:#e2e8f0; transition: transform 0.3s;" class="hover-grow">
-        <img src="src/Screenshot-3.png" border-radius:24px; background:#e2e8f0; transition: transform 0.3s;" class="hover-grow">
+      <div class="screenshot-gallery reveal">
+        <img src="src/screenshot-1.png" alt="Easy Rx Screenshot 1">
+        <img src="src/screenshot-2.png" alt="Easy Rx Screenshot 2">
+        <img src="src/screenshot-3.png" alt="Easy Rx Screenshot 3">
       </div>
     </div>
   </section>
@@ -809,7 +845,6 @@
         entries.forEach(entry => {
           if (entry.isIntersecting) {
             entry.target.classList.add('visible');
-            // Optional: unobserve after animation to save resources
             observer.unobserve(entry.target);
           }
         });
@@ -819,12 +854,6 @@
       });
 
       revealElements.forEach(el => observer.observe(el));
-
-      // Additional hover animations for screenshot images
-      document.querySelectorAll('.hover-grow').forEach(img => {
-        img.addEventListener('mouseenter', () => { img.style.transform = 'scale(1.05)'; });
-        img.addEventListener('mouseleave', () => { img.style.transform = 'scale(1)'; });
-      });
     })();
   </script>
 </body>
